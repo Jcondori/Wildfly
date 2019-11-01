@@ -19,13 +19,16 @@ RUN cd $HOME \
     && chown -R jboss:0 ${JBOSS_HOME} \
     && chmod -R g+rw ${JBOSS_HOME}
 
+# Set TimeZone
+RUN echo 'JAVA_OPTS="$JAVA_OPTS -Duser.timezone=GMT-5"' >> $JBOSS_HOME/bin/standalone.conf
+
 # Ensure signals are forwarded to the JVM process correctly for graceful shutdown
 ENV LAUNCH_JBOSS_IN_BACKGROUND true
 
-USER jboss
+# USER jboss
 
 # Create user jvalenzuela with password shadow99g
-RUN /opt/jboss/wildfly/bin/add-user.sh jvalenzuela shadow99g --silent
+RUN /opt/jboss/wildfly/bin/add-user.sh root root --silent
 
 
  
