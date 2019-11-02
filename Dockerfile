@@ -27,8 +27,9 @@ ENV LAUNCH_JBOSS_IN_BACKGROUND true
 
 # USER jboss
 
-# Create user jvalenzuela with password shadow99g
+# Create user root with password root
 RUN /opt/jboss/wildfly/bin/add-user.sh root root --silent
  
 # Run
-CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0", "-c", "standalone.xml"]
+#CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0", "-c", "standalone.xml"]
+CMD ["/opt/jboss/wildfly/bin/standalone.sh"]
