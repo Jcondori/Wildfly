@@ -2,8 +2,8 @@
 FROM jboss/base-jdk:11
 
 # Set the WILDFLY_VERSION env variable
-ENV WILDFLY_VERSION 17.0.1.Final
-ENV WILDFLY_SHA1 eaef7a87062837c215e54511c4ada8951f0bd8d5
+ENV WILDFLY_VERSION 18.0.0.Final
+ENV WILDFLY_SHA1 2d4778b14fda6257458a26943ea82988e3ae6a66
 ENV JBOSS_HOME /opt/jboss/wildfly
 
 USER root
@@ -19,17 +19,20 @@ RUN cd $HOME \
     && chown -R jboss:0 ${JBOSS_HOME} \
     && chmod -R g+rw ${JBOSS_HOME}
 
-# Set TimeZone Peru
-RUN echo 'JAVA_OPTS="$JAVA_OPTS -Duser.timezone=GMT-5"' >> $JBOSS_HOME/bin/standalone.conf
-
 # Ensure signals are forwarded to the JVM process correctly for graceful shutdown
 ENV LAUNCH_JBOSS_IN_BACKGROUND true
 
-# USER jboss
+USER jboss
 
 # Create user root with password root
+RUN /opt/jboss/wildfly/bin/add-user.sh jcondori jcondori --silent
 RUN /opt/jboss/wildfly/bin/add-user.sh root root --silent
- 
-# Run
-#CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0", "-c", "standalone.xml"]
-CMD ["/opt/jboss/wildfly/bin/standalone.sh"]
+#RUN /opt/jboss/wildfly/bin/add-user.sh admin Admin#70365 --silent
+
+# Expose the ports we're interested in
+#EXPOSE 8080
+
+# Set the default command to run on boot
+# This will boot WildFly in the standalone mode and bind to all interface
+#CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
