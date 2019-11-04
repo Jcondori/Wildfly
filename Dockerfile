@@ -19,6 +19,9 @@ RUN cd $HOME \
     && chown -R jboss:0 ${JBOSS_HOME} \
     && chmod -R g+rw ${JBOSS_HOME}
 
+# Set TimeZone Peru
+RUN echo 'JAVA_OPTS="$JAVA_OPTS -Duser.timezone=GMT-5"' >> $JBOSS_HOME/bin/standalone.conf
+
 # Ensure signals are forwarded to the JVM process correctly for graceful shutdown
 ENV LAUNCH_JBOSS_IN_BACKGROUND true
 
