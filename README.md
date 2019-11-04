@@ -1,5 +1,10 @@
 # Wildfly
 
+## Credenciales
+
+ - User : `root`
+ - Password : `root`
+
 ## Uso Simple
 
 Para arrancar en modo independiente
